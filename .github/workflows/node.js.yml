@@ -24,3 +24,15 @@ jobs:
       run: npm run test:unit
     - name: Display SoftUni username
       run: echo "rdimitrow9"
+
+  deploy:
+    needs: build-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to production
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: ${{ secrets.RENDER_SRV }}
+          api-key: ${{ secrets.RENDER_API }}
+      - name: Wait for deploy
+        run: sleep 60
